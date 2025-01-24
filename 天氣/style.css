@@ -278,6 +278,16 @@ body {
         margin-top: 8px;
         opacity: 0.8;
     }
+
+    .aqi-progress,
+    .pm-progress {
+        height: 18px;  /* 手機版稍微小一點 */
+    }
+
+    .aqi-value,
+    .pm-value {
+        font-size: 0.85rem;
+    }
 }
 
 /* 更小屏幕的調整 */
@@ -412,4 +422,133 @@ h2 {
     color: #fff;
     font-weight: 600;
     text-align: center;
-} 
+}
+
+.weather-analysis {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    text-align: left;
+}
+
+.weather-analysis h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.analysis-details {
+    margin-bottom: 15px;
+}
+
+.analysis-details p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.weather-suggestion {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.weather-suggestion p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 添加空氣品質進度條樣式 */
+.aqi-progress,
+.pm-progress {
+    width: 100%;
+    height: 20px;  /* 統一高度 */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    margin: 8px 0;
+    overflow: hidden;
+}
+
+.aqi-bar,
+.pm-bar {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.aqi-value,
+.pm-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 2;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 調整標籤間距 */
+.air-quality-section p {
+    margin: 12px 0 4px 0;
+    font-size: 0.95rem;
+}
+
+.aqi-labels {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0 12px 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* AQI 顏色 */
+.aqi-excellent { background: linear-gradient(to right, #00E400, #92D050); }
+.aqi-good { background: linear-gradient(to right, #92D050, #FFFF00); }
+.aqi-moderate { background: linear-gradient(to right, #FFFF00, #FF7E00); }
+.aqi-poor { background: linear-gradient(to right, #FF7E00, #FF0000); }
+.aqi-very-poor { background: linear-gradient(to right, #FF0000, #99004C); }
+
+/* PM2.5 和 PM10 進度條樣式 */
+.pm-progress {
+    width: 100%;
+    height: 20px;  /* 比 AQI 進度條小一點 */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    margin: 8px 0;
+    overflow: hidden;
+}
+
+.pm-bar {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.pm-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 2;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* PM 顏色 */
+.pm-good { background: linear-gradient(to right, #00E400, #92D050); }
+.pm-moderate { background: linear-gradient(to right, #92D050, #FFFF00); }
+.pm-unhealthy { background: linear-gradient(to right, #FFFF00, #FF7E00); }
+.pm-very-unhealthy { background: linear-gradient(to right, #FF7E00, #FF0000); } 
