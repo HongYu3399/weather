@@ -15,31 +15,10 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
-.current-weather {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 30px;
-    text-align: center;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-#current-temp {
-    font-size: 4rem;
-    font-weight: 700;
-    margin: 20px 0;
-}
-
-#current-desc {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.hourly-forecast, .daily-forecast {
+.current-weather, .hourly-forecast, .daily-forecast {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -49,37 +28,39 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #fff;
+/* 修改當前天氣卡片樣式 */
+.current-weather {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+#location {
+    font-size: 2rem;
     font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-#hourly-container, #daily-container {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
-    padding: 10px 0;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+#current-date {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-#hourly-container::-webkit-scrollbar, 
-#daily-container::-webkit-scrollbar {
-    height: 6px;
+#current-temp {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin: 20px 0;
+    text-align: center;
 }
 
-#hourly-container::-webkit-scrollbar-track,
-#daily-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-}
-
-#hourly-container::-webkit-scrollbar-thumb,
-#daily-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+#current-desc {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .forecast-item {
@@ -89,6 +70,8 @@ h2 {
     border-radius: 15px;
     transition: transform 0.2s;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(145, 192, 255, 0.1);
 }
 
 .forecast-item:hover {
@@ -142,26 +125,15 @@ h2 {
     margin-top: 10px;
 }
 
-#location {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-#current-date {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 20px;
-}
-
 .weather-details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
-    margin-top: 20px;
+    margin: 20px auto;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
+    max-width: 800px;
 }
 
 .weather-detail {
@@ -182,42 +154,50 @@ h2 {
     font-weight: 500;
 }
 
+/* 手機版調整 */
 @media (max-width: 768px) {
     body {
-        padding: 10px;
+        padding: 10px 0;  /* 減少頂部和底部間距 */
     }
 
     .container {
-        padding: 0;
+        padding: 0 10px;
     }
 
+    /* 當前天氣卡片優化 */
     .current-weather {
         padding: 20px 15px;
         margin-bottom: 15px;
+        border-radius: 15px;  /* 稍微縮小圓角 */
     }
 
     #location {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        margin-bottom: 5px;  /* 縮小間距 */
     }
 
     #current-date {
         font-size: 1rem;
+        margin-bottom: 15px;
     }
 
     #current-temp {
-        font-size: 3.5rem;
-        margin: 15px 0;
+        font-size: 3.8rem;  /* 調整溫度大小 */
+        margin: 10px 0;
     }
 
     #current-desc {
         font-size: 1.2rem;
+        margin-bottom: 15px;
     }
 
+    /* 詳細信息網格優化 */
     .weather-details-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);  /* 手機版顯示兩列 */
         gap: 10px;
-        padding: 10px;
-        margin-top: 15px;
+        padding: 12px;
+        margin: 15px auto;
+        max-width: 100%;
     }
 
     .weather-detail {
@@ -232,51 +212,43 @@ h2 {
         font-size: 1.1rem;
     }
 
+    /* 預報卡片優化 */
     .hourly-forecast, .daily-forecast {
         padding: 15px;
         margin-bottom: 15px;
+        border-radius: 15px;
     }
 
     h2 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
     }
 
     #hourly-container, #daily-container {
-        gap: 10px;
-        padding: 5px 0;
-        margin: 0 -15px;
-        padding: 0 15px;
+        gap: 8px;  /* 縮小卡片間距 */
+        padding: 5px 15px;
         scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
 
     .forecast-item {
-        min-width: 100px;
-        padding: 12px;
+        min-width: 85px;  /* 縮小卡片寬度 */
+        padding: 10px;
         scroll-snap-align: start;
     }
 
+    /* 預報項目內容優化 */
     .forecast-item .temp {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin: 5px 0;
+        font-size: 1.1rem;
+        margin: 4px 0;
     }
 
-    .forecast-item .feels-like {
-        font-size: 0.8rem;
-    }
-
+    .forecast-item .feels-like,
+    .forecast-item .precipitation,
+    .forecast-item .wind,
     .forecast-item .weather-icon {
-        font-size: 0.9rem;
-        margin: 5px 0;
-    }
-
-    .forecast-item .precipitation {
         font-size: 0.8rem;
-    }
-
-    .forecast-item .wind {
-        font-size: 0.8rem;
+        margin: 3px 0;
     }
 
     .forecast-item .date {
@@ -284,61 +256,53 @@ h2 {
     }
 
     .forecast-item .temp-range {
-        font-size: 1.1rem;
-        margin: 8px 0;
+        font-size: 1rem;
+        margin: 6px 0;
     }
 
     .forecast-item .sun-time {
         font-size: 0.8rem;
-        margin-top: 8px;
+        margin-top: 6px;
     }
 
+    /* 滾動條優化 */
     #hourly-container::-webkit-scrollbar, 
     #daily-container::-webkit-scrollbar {
-        height: 4px;
+        height: 3px;  /* 更細的滾動條 */
     }
 
+    /* 滑動提示優化 */
     .hourly-forecast::after,
     .daily-forecast::after {
-        content: '←滑動查看更多→';
-        display: block;
-        text-align: center;
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
-        margin-top: 10px;
-    }
-
-    #hourly-container,
-    #daily-container {
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-    }
-
-    .forecast-item:hover {
-        transform: none;
-    }
-
-    .forecast-item:active {
-        background: rgba(255, 255, 255, 0.15);
+        font-size: 0.75rem;
+        margin-top: 8px;
+        opacity: 0.8;
     }
 }
 
+/* 更小屏幕的調整 */
 @media (max-width: 360px) {
-    .weather-details-grid {
-        grid-template-columns: 1fr;
+    .container {
+        padding: 0 8px;
     }
 
-    .forecast-item {
-        min-width: 90px;
-        padding: 10px;
+    #location {
+        font-size: 1.5rem;
     }
 
     #current-temp {
-        font-size: 3rem;
+        font-size: 3.2rem;
     }
 
-    .weather-detail span:last-child {
-        font-size: 1rem;
+    .forecast-item {
+        min-width: 80px;
+        padding: 8px;
+    }
+
+    .weather-details-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 保持兩列 */
+        gap: 8px;
+        padding: 10px;
     }
 }
 
@@ -365,4 +329,87 @@ h2 {
     .weather-details-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/* 添加載入動畫樣式 */
+#loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 添加淡入動畫 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* 添加橫向滾動容器樣式 */
+#hourly-container, #daily-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* 美化滾動條 */
+#hourly-container::-webkit-scrollbar, 
+#daily-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+#hourly-container::-webkit-scrollbar-track,
+#daily-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+#hourly-container::-webkit-scrollbar-thumb,
+#daily-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* 標題樣式 */
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
 } 

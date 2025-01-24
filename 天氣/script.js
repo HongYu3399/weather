@@ -1,3 +1,12 @@
+let locationData = null;
+
+// 添加緩存控制
+const CACHE_DURATION = 10 * 60 * 1000; // 10分鐘緩存
+let weatherCache = {
+    data: null,
+    timestamp: null
+};
+
 async function getLocation(lat, lon) {
     try {
         const response = await fetch(
@@ -26,43 +35,79 @@ function formatTime(date) {
 
 async function getWeather(lat, lon) {
     try {
-        console.log('正在獲取天氣數據...');
-        console.log(`緯度: ${lat}, 經度: ${lon}`);
-        
-        // 獲取位置名稱
-        const locationName = await getLocation(lat, lon);
-        document.getElementById('location').textContent = locationName;
-        
-        // 設置當前日期
-        const currentDate = new Date();
-        document.getElementById('current-date').textContent = formatDate(currentDate);
-
-        const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?` +
-            `latitude=${lat}&longitude=${lon}` +
-            `&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,weathercode,windspeed_10m,winddirection_10m` +
-            `&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,precipitation_probability_max,windspeed_10m_max` +
-            `&current_weather=true` +
-            `&timezone=Asia%2FTaipei`
-        );
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        // 檢查緩存
+        if (weatherCache.data && weatherCache.timestamp && 
+            (Date.now() - weatherCache.timestamp < CACHE_DURATION)) {
+            return handleWeatherData(weatherCache.data);
         }
-        
-        const data = await response.json();
-        console.log('獲取到的天氣數據:', data);
-        
-        displayCurrentWeather(data);
-        displayHourlyForecast(data.hourly);
-        displayDailyForecast(data);
+
+        // 同時發起請求並等待所有請求完成
+        const [weatherResponse, locationResponse] = await Promise.all([
+            fetch(`https://api.open-meteo.com/v1/forecast?` +
+                `latitude=${lat}&longitude=${lon}` +
+                `&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,weathercode,windspeed_10m,winddirection_10m` +
+                `&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,precipitation_probability_max,windspeed_10m_max` +
+                `&current_weather=true` +
+                `&timezone=Asia%2FTaipei`
+            ),
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+        ]);
+
+        const [weatherData, locationData] = await Promise.all([
+            weatherResponse.json(),
+            locationResponse.json()
+        ]);
+
+        // 更新緩存
+        weatherCache.data = { weatherData, locationData };
+        weatherCache.timestamp = Date.now();
+
+        return handleWeatherData({ weatherData, locationData });
     } catch (error) {
-        console.error('獲取天氣數據失敗:', error);
-        document.querySelector('.current-weather').innerHTML = `
-            <h2>錯誤</h2>
-            <div>獲取天氣數據失敗: ${error.message}</div>
-        `;
+        handleError(error);
     }
+}
+
+function handleWeatherData({ weatherData, locationData }) {
+    // 隱藏載入動畫
+    document.getElementById('loading-spinner').style.display = 'none';
+
+    // 顯示內容並添加動畫
+    const elements = [
+        document.querySelector('.current-weather'),
+        document.querySelector('.hourly-forecast'),
+        document.querySelector('.daily-forecast')
+    ];
+
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.display = 'block';
+            element.classList.add('fade-in');
+        }, index * 100);
+    });
+
+    // 設置位置和日期
+    const locationName = locationData.address.city || 
+                        locationData.address.town || 
+                        locationData.address.county || 
+                        '未知位置';
+    document.getElementById('location').textContent = locationName;
+    document.getElementById('current-date').textContent = formatDate(new Date());
+
+    // 顯示天氣數據
+    displayCurrentWeather(weatherData);
+    displayHourlyForecast(weatherData.hourly);
+    displayDailyForecast(weatherData);
+}
+
+function handleError(error) {
+    console.error('獲取數據失敗:', error);
+    document.getElementById('loading-spinner').style.display = 'none';
+    document.querySelector('.current-weather').innerHTML = `
+        <h2>錯誤</h2>
+        <div>獲取天氣數據失敗: ${error.message}</div>
+    `;
+    document.querySelector('.current-weather').style.display = 'block';
 }
 
 function getWeatherDescription(code) {
@@ -205,24 +250,29 @@ function displayDailyForecast(data) {
     }
 }
 
-// 獲取地理位置
+// 添加自動更新
+setInterval(() => {
+    if (navigator.onLine) {  // 檢查網絡連接
+        const position = JSON.parse(localStorage.getItem('lastPosition'));
+        if (position) {
+            getWeather(position.latitude, position.longitude);
+        }
+    }
+}, 10 * 60 * 1000);  // 每10分鐘更新一次
+
+// 保存最後一次成功的位置
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         (position) => {
             const { latitude, longitude } = position.coords;
-            console.log('成功獲取位置:', latitude, longitude);
+            localStorage.setItem('lastPosition', JSON.stringify({ latitude, longitude }));
             getWeather(latitude, longitude);
         },
         (error) => {
             console.error('無法獲取位置:', error);
-            // 使用預設位置（台北市）
-            console.log('使用預設位置（台北市）');
-            getWeather(25.0330, 121.5654);
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
+            const defaultPosition = { latitude: 25.0330, longitude: 121.5654 };
+            localStorage.setItem('lastPosition', JSON.stringify(defaultPosition));
+            getWeather(defaultPosition.latitude, defaultPosition.longitude);
         }
     );
 } else {

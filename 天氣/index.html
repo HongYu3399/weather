@@ -8,7 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <div class="current-weather">
+        <div id="loading-spinner">
+            <div class="spinner"></div>
+            <div class="loading-text">載入中...</div>
+        </div>
+
+        <div class="current-weather" style="display: none;">
             <div id="location">正在獲取位置...</div>
             <div id="current-date"></div>
             <div id="current-temp"></div>
@@ -16,12 +21,12 @@
             <div id="current-details" class="weather-details-grid"></div>
         </div>
 
-        <div class="hourly-forecast">
+        <div class="hourly-forecast" style="display: none;">
             <h2>24小時預報</h2>
             <div id="hourly-container"></div>
         </div>
 
-        <div class="daily-forecast">
+        <div class="daily-forecast" style="display: none;">
             <h2>7天預報</h2>
             <div id="daily-container"></div>
         </div>
