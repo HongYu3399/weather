@@ -1,0 +1,808 @@
+/* 全域文字樣式 - 移到最前面 */
+.weather-analysis h3,
+.weather-suggestion h4,
+.suggestion-text,
+.analysis-label,
+.analysis-value,
+.air-quality-section h4,
+.pm-label,
+.pm-value,
+.aqi-labels span,
+.search-result-item,
+.loading-text,
+h2,
+#location-search,
+#location,
+#current-temp,
+#current-desc,
+.weather-detail span,
+.forecast-item,
+.temp,
+.feels-like,
+.weather-icon,
+.precipitation,
+.wind span {
+    color: rgba(255, 255, 255, 0.98);
+}
+
+/* 文字大小和粗細設定 */
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+    /* 孔雀藍色系漸層 */
+    background: linear-gradient(135deg, 
+        #33658A 0%,    /* 深孔雀藍 */
+        #86BBD8 100%   /* 淺孔雀藍 */
+    );
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.current-weather, .hourly-forecast, .daily-forecast {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 35px;
+    box-shadow: 0 8px 32px 0 rgba(51, 101, 138, 0.15);  /* 配合孔雀藍 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.current-weather:hover, .hourly-forecast:hover, .daily-forecast:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px 0 rgba(51, 101, 138, 0.2);
+}
+
+/* 當前天氣卡片樣式優化 */
+.current-weather {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 35px;
+}
+
+#location {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+#current-date {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    text-align: center;
+    opacity: 0.95;
+}
+
+#current-temp {
+    font-size: 5rem;
+    font-weight: 700;
+    margin: 25px 0;
+    text-align: center;
+    letter-spacing: -2px;
+}
+
+#current-desc {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+.forecast-item {
+    min-width: 130px;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(51, 101, 138, 0.1);
+}
+
+.forecast-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.forecast-item .temp-range {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.forecast-item .temp-range .max {
+    color: #ff7e67;
+}
+
+.forecast-item .temp-range .min {
+    color: #67b7ff;
+}
+
+.forecast-item .feels-like {
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.forecast-item .precipitation {
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.forecast-item .wind {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+.wind-direction {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.sun-time {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.weather-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    margin: 25px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    max-width: 800px;
+}
+
+.weather-detail {
+    padding: 12px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.weather-detail:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.weather-detail span:first-child {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+.weather-detail span:last-child {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* 手機版調整 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px 0;  /* 減少頂部和底部間距 */
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    /* 當前天氣卡片優化 */
+    .current-weather {
+        padding: 20px 15px;
+        margin-bottom: 15px;
+        border-radius: 15px;  /* 稍微縮小圓角 */
+    }
+
+    #location {
+        font-size: 1.8rem;
+        margin-bottom: 5px;  /* 縮小間距 */
+    }
+
+    #current-date {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    #current-temp {
+        font-size: 3.8rem;  /* 調整溫度大小 */
+        margin: 10px 0;
+    }
+
+    #current-desc {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    /* 詳細信息網格優化 */
+    .weather-details-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 手機版顯示兩列 */
+        gap: 10px;
+        padding: 12px;
+        margin: 15px auto;
+        max-width: 100%;
+    }
+
+    .weather-detail {
+        padding: 8px;
+    }
+
+    .weather-detail span:first-child {
+        font-size: 0.85rem;
+    }
+
+    .weather-detail span:last-child {
+        font-size: 1.1rem;
+    }
+
+    /* 預報卡片優化 */
+    .hourly-forecast, .daily-forecast {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 15px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    #hourly-container, #daily-container {
+        gap: 8px;  /* 縮小卡片間距 */
+        padding: 5px 15px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .forecast-item {
+        min-width: 85px;  /* 縮小卡片寬度 */
+        padding: 10px;
+        scroll-snap-align: start;
+    }
+
+    /* 預報項目內容優化 */
+    .forecast-item .temp {
+        font-size: 1.1rem;
+        margin: 4px 0;
+    }
+
+    .forecast-item .feels-like,
+    .forecast-item .precipitation,
+    .forecast-item .wind,
+    .forecast-item .weather-icon {
+        font-size: 0.8rem;
+        margin: 3px 0;
+    }
+
+    .forecast-item .date {
+        font-size: 0.9rem;
+    }
+
+    .forecast-item .temp-range {
+        font-size: 1rem;
+        margin: 6px 0;
+    }
+
+    .forecast-item .sun-time {
+        font-size: 0.8rem;
+        margin-top: 6px;
+    }
+
+    /* 滾動條優化 */
+    #hourly-container::-webkit-scrollbar, 
+    #daily-container::-webkit-scrollbar {
+        height: 3px;  /* 更細的滾動條 */
+    }
+
+    /* 滑動提示優化 */
+    .hourly-forecast::after,
+    .daily-forecast::after {
+        font-size: 0.75rem;
+        margin-top: 8px;
+        opacity: 0.8;
+    }
+
+    .aqi-progress,
+    .pm-progress {
+        height: 18px;  /* 手機版稍微小一點 */
+    }
+
+    .aqi-value,
+    .pm-value {
+        font-size: 0.85rem;
+    }
+}
+
+/* 更小屏幕的調整 */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 8px;
+    }
+
+    #location {
+        font-size: 1.5rem;
+    }
+
+    #current-temp {
+        font-size: 3.2rem;
+    }
+
+    .forecast-item {
+        min-width: 80px;
+        padding: 8px;
+    }
+
+    .weather-details-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 保持兩列 */
+        gap: 8px;
+        padding: 10px;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .current-weather {
+        margin-bottom: 0;
+    }
+
+    #current-temp {
+        font-size: 2.5rem;
+        margin: 10px 0;
+    }
+
+    .weather-details-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 添加載入動畫樣式 */
+#loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 添加淡入動畫 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* 添加橫向滾動容器樣式 */
+#hourly-container, #daily-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 18px;
+    padding: 15px 5px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scroll-behavior: smooth;
+}
+
+/* 美化滾動條 */
+#hourly-container::-webkit-scrollbar, 
+#daily-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+#hourly-container::-webkit-scrollbar-track,
+#daily-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+#hourly-container::-webkit-scrollbar-thumb,
+#daily-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* 標題樣式優化 */
+h2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* 搜尋相關樣式 */
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    padding: 12px 20px;
+    box-shadow: 0 8px 32px 0 rgba(51, 101, 138, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+#location-search {
+    width: 100%;
+    padding: 8px 40px 8px 10px;
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 1rem;
+}
+
+#location-search::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#location-search:focus {
+    outline: none;
+}
+
+#search-button {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-button:hover {
+    color: #fff;
+}
+
+#search-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    margin-top: 5px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.search-result-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-result-item .location-name {
+    font-size: 1rem;
+}
+
+.search-result-item .location-temp {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* 天氣分析相關樣式 */
+.weather-analysis {
+    margin-top: 25px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(51, 101, 138, 0.15);
+}
+
+.weather-analysis h3 {
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 分析網格 */
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.analysis-item {
+    margin: 15px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.analysis-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.analysis-label {
+    font-size: 1.1rem;
+}
+
+.analysis-value {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* 空氣品質區塊 */
+.air-quality-section {
+    margin-top: 35px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+}
+
+.air-quality-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.aqi-container {
+    margin-bottom: 25px;
+}
+
+.pm-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.pm-item {
+    margin-top: 20px;
+}
+
+.pm-header {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 天氣建議區塊 */
+.weather-suggestion {
+    margin-bottom: 35px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+}
+
+.weather-suggestion h4 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.suggestion-text {
+    line-height: 1.8;
+    white-space: pre-line;
+    padding: 0 10px;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+}
+
+.aqi-labels {
+    font-size: 0.8rem;
+}
+
+.analysis-value,
+.pm-value,
+.search-result-item .location-temp {
+    font-weight: 500;
+}
+
+/* 進度條顏色設定 */
+.level-good {
+    background: linear-gradient(to right, #00e400, #92d050);  /* 綠色 */
+}
+
+.level-moderate {
+    background: linear-gradient(to right, #ffff00, #ffa500);  /* 黃色到橙色 */
+}
+
+.level-unhealthy {
+    background: linear-gradient(to right, #ff7e00, #ff0000);  /* 橙色到紅色 */
+}
+
+.level-dangerous {
+    background: linear-gradient(to right, #ff0000, #8f3f97);  /* 紅色到紫色 */
+}
+
+/* 進度條背景 */
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.progress-value {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.pm-label {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.pm-value {
+    color: #fff;
+    font-weight: 500;
+}
+
+.aqi-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .search-container {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    #location-search {
+        font-size: 0.9rem;
+        padding: 10px 40px 10px 12px;
+    }
+
+    #search-button svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* 移除重複的顏色定義 */
+.weather-analysis h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.weather-suggestion h4 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.suggestion-text {
+    white-space: pre-line;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.air-quality-section h4 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* 添加微妙的光暈效果 */
+.weather-analysis::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, 
+                              rgba(255, 223, 186, 0.1),
+                              transparent 70%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* 選項 2: 深藍到靛藍 */
+body {
+    /* 選項 2: 深藍到靛藍 */
+    background: linear-gradient(135deg, 
+        #141e30 0%,    /* 深藍色 */
+        #243b55 100%   /* 靛藍色 */
+    );
+} 
